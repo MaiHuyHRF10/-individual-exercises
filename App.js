@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, StyleSheet, Text, View, Linking} from 'react-native';
 
 const App = () => {
+  const [number, setNumber] = useState(1);
+  const handleClickButton = () => {
+    setNumber(number + 1);
+  }
+
   return (
     <View style={styles.body}>
-      <Text style={styles.text}>React Native Tutorial</Text>
+      <Text style={styles.text}>{number}</Text>
       <Button
-        title="Youtube Channel"
-        onPress={() => {
-          Linking.openURL('https://reactnative.dev/docs/linking#openurl');
-        }}></Button>
+        title="Increase"
+        onPress={handleClickButton}></Button>
     </View>
   );
 };
@@ -25,7 +28,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
-    fontStyle: 'italic',
     margin: 10,
   },
 });
