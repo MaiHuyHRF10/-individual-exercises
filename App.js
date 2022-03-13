@@ -5,6 +5,8 @@ import {
   Text,
   Button,
   View,
+  ToastAndroid,
+  Alert,
   TouchableOpacity,
   TouchableHighlight,
   TouchableWithoutFeedback,
@@ -12,11 +14,40 @@ import {
 } from 'react-native';
 
 const App = () => {
-  const [phoneNumber, setPhoneNumber] = useState();
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const submitHandler = () => {
-    setSubmitted(!submitted);
+    if (phoneNumber.length == 10) setSubmitted(!submitted);
+    else {
+      ToastAndroid.showWithGravity(
+        'The name must be longer than 3 characters',
+        ToastAndroid.LONG,
+        ToastAndroid.TOP,
+      );
+
+      // Alert usage
+      // Alert.alert(
+      //   'Warning',
+      //   'The name must at least 10 characters', [
+      //   {
+      //     text: 'Do not show again',
+      //     onPress: () => console.warn('Do not show Pressed!')
+      //   },
+      //   {
+      //     text: 'Cancel',
+      //     onPress: () => console.warn('Cancel Pressed!')
+      //   },
+      //   {
+      //     text: 'OK',
+      //     onPress: () => console.warn('OK Pressed!')
+      //   },
+      // ],
+      //   {
+      //     cancelable: true,
+      //     onDismiss: () => console.warn('Alert dismissed!')
+      //   })
+    }
   };
 
   return (
@@ -31,45 +62,11 @@ const App = () => {
         //secureTextEntry
         //editable={false}
       />
-      {/* button usage
       <Button
         title={submitted ? 'clear' : 'submit'}
         onPress={submitHandler}
         disabled={submitted}
-      /> */}
-
-      {/* TouchableOpacity usage
-      <TouchableOpacity
-        style={styles.button}
-        onPress={submitHandler}
-        activeOpacity={0.5}>
-        <Text style={styles.text}>{submitted ? 'clear' : 'submit'}</Text>
-      </TouchableOpacity> */}
-
-      {/* TouchableHighlight usage
-      <TouchableHighlight
-        style={styles.button}
-        onPress={submitHandler}
-        activeOpacity={0.9}
-        underlayColor="yellow">
-        <Text style={styles.text}>{submitted ? 'clear' : 'submit'}</Text>
-      </TouchableHighlight> */}
-
-      <Pressable
-        onPress={submitHandler}
-        android_ripple={{color: '#00f'}}
-        hitSlop={{
-          top: 10,
-          bottom: 10,
-          right: 10,
-          left: 10,
-        }}
-        style={({pressed}) => [
-          {backgroundColor: pressed ? 'orange' : 'yellow'},
-          styles.button,
-        ]}>
-        <Text style={styles.text}>{submitted ? 'clear' : 'submit'}</Text>
-      </Pressable>
+      />
 
       {submitted && (
         <Text style={styles.text}>Your phone number: {phoneNumber}</Text>
