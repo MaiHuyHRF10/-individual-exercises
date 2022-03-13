@@ -11,20 +11,18 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
   Pressable,
+  Modal,
 } from 'react-native';
 
 const App = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
 
   const submitHandler = () => {
     if (phoneNumber.length == 10) setSubmitted(!submitted);
     else {
-      ToastAndroid.showWithGravity(
-        'The name must be longer than 3 characters',
-        ToastAndroid.LONG,
-        ToastAndroid.TOP,
-      );
+      setShowWarning(true);
 
       // Alert usage
       // Alert.alert(
@@ -52,6 +50,24 @@ const App = () => {
 
   return (
     <View style={styles.body}>
+      <Modal
+        visible={showWarning}
+        onRequestClose={() => setShowWarning(false)}
+        transparent>
+        <View style={styles.centered_view}>
+          <View style={styles.warning_modal}>
+            <View style={styles.warning_title}>
+              <Text style={styles.text}>Warning!!!</Text>
+            </View>
+
+            <View style={styles.warning_body}>
+              <Text style={styles.text}>
+                The phone number must at least 10 characters
+              </Text>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <Text style={styles.text}>Please enter your phone number:</Text>
       <TextInput
         style={styles.input}
@@ -98,8 +114,35 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     color: 'black',
-    fontWeight: '700',
+    textAlign: 'center',
   },
+  centered_view: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#00000099',
+  },
+  warning_modal: {
+    width: 300,
+    height: 250,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: '#000',
+  },
+  warning_title: {
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'red',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  warning_body: {
+    height: 150,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });
 
 export default App;
