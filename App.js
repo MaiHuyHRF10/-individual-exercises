@@ -3,16 +3,21 @@ import {
   TextInput,
   StyleSheet,
   Text,
+  Button,
   View,
-  Linking,
-  ScrollView,
-  RefreshControl,
-  FlatList,
-  SectionList,
+  TouchableOpacity,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  Pressable,
 } from 'react-native';
 
 const App = () => {
   const [phoneNumber, setPhoneNumber] = useState();
+  const [submitted, setSubmitted] = useState(false);
+
+  const submitHandler = () => {
+    setSubmitted(!submitted);
+  };
 
   return (
     <View style={styles.body}>
@@ -26,7 +31,49 @@ const App = () => {
         //secureTextEntry
         //editable={false}
       />
-      <Text style={styles.text}>Your phone number: {phoneNumber}</Text>
+      {/* button usage
+      <Button
+        title={submitted ? 'clear' : 'submit'}
+        onPress={submitHandler}
+        disabled={submitted}
+      /> */}
+
+      {/* TouchableOpacity usage
+      <TouchableOpacity
+        style={styles.button}
+        onPress={submitHandler}
+        activeOpacity={0.5}>
+        <Text style={styles.text}>{submitted ? 'clear' : 'submit'}</Text>
+      </TouchableOpacity> */}
+
+      {/* TouchableHighlight usage
+      <TouchableHighlight
+        style={styles.button}
+        onPress={submitHandler}
+        activeOpacity={0.9}
+        underlayColor="yellow">
+        <Text style={styles.text}>{submitted ? 'clear' : 'submit'}</Text>
+      </TouchableHighlight> */}
+
+      <Pressable
+        onPress={submitHandler}
+        android_ripple={{color: '#00f'}}
+        hitSlop={{
+          top: 10,
+          bottom: 10,
+          right: 10,
+          left: 10,
+        }}
+        style={({pressed}) => [
+          {backgroundColor: pressed ? 'orange' : 'yellow'},
+          styles.button,
+        ]}>
+        <Text style={styles.text}>{submitted ? 'clear' : 'submit'}</Text>
+      </Pressable>
+
+      {submitted && (
+        <Text style={styles.text}>Your phone number: {phoneNumber}</Text>
+      )}
     </View>
   );
 };
@@ -36,9 +83,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  item: {
-    backgroundColor: 'orange',
-    margin: 10,
+  button: {
+    borderRadius: 4,
+    width: 150,
+    height: 50,
     alignItems: 'center',
     justifyContent: 'center',
   },
