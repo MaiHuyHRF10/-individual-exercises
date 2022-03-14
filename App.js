@@ -5,6 +5,8 @@ import {
   Text,
   Button,
   View,
+  Image,
+  ImageBackground,
   ToastAndroid,
   Alert,
   TouchableOpacity,
@@ -23,37 +25,21 @@ const App = () => {
     if (phoneNumber.length == 10) setSubmitted(!submitted);
     else {
       setShowWarning(true);
-
-      // Alert usage
-      // Alert.alert(
-      //   'Warning',
-      //   'The name must at least 10 characters', [
-      //   {
-      //     text: 'Do not show again',
-      //     onPress: () => console.warn('Do not show Pressed!')
-      //   },
-      //   {
-      //     text: 'Cancel',
-      //     onPress: () => console.warn('Cancel Pressed!')
-      //   },
-      //   {
-      //     text: 'OK',
-      //     onPress: () => console.warn('OK Pressed!')
-      //   },
-      // ],
-      //   {
-      //     cancelable: true,
-      //     onDismiss: () => console.warn('Alert dismissed!')
-      //   })
     }
   };
 
   return (
-    <View style={styles.body}>
+    <ImageBackground
+      style={styles.body}
+      source={{
+        uri: 'https://cdn.pixabay.com/photo/2013/07/12/12/35/texture-145968_960_720.png',
+      }}>
       <Modal
         visible={showWarning}
         onRequestClose={() => setShowWarning(false)}
-        transparent>
+        transparent
+        animationType="fade"
+        hardwareAccelerated>
         <View style={styles.centered_view}>
           <View style={styles.warning_modal}>
             <View style={styles.warning_title}>
@@ -65,6 +51,13 @@ const App = () => {
                 The phone number must at least 10 characters
               </Text>
             </View>
+
+            <Pressable
+              onPress={() => setShowWarning(false)}
+              style={styles.warning_button}
+              android_ripple={{color: 'white'}}>
+              <Text style={styles.text}>OK</Text>
+            </Pressable>
           </View>
         </View>
       </Modal>
@@ -84,10 +77,27 @@ const App = () => {
         disabled={submitted}
       />
 
-      {submitted && (
-        <Text style={styles.text}>Your phone number: {phoneNumber}</Text>
+      {submitted ? (
+        <View style={styles.body}>
+          <Text style={styles.text}>Your phone number: {phoneNumber}</Text>
+          <Image
+            style={styles.image}
+            source={require('./assets/done.png')}
+            resizeMode="stretch"
+          />
+        </View>
+      ) : (
+        <Image
+          style={styles.image}
+          source={require('./assets/error.png')}
+          resizeMode="stretch"
+        />
       )}
-    </View>
+
+      {/* {submitted && (
+        <Text style={styles.text}>Your phone number: {phoneNumber}</Text>
+      )} */}
+    </ImageBackground>
   );
 };
 
@@ -112,6 +122,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   text: {
+    margin: 11,
     fontSize: 20,
     color: 'black',
     textAlign: 'center',
@@ -141,7 +152,17 @@ const styles = StyleSheet.create({
   warning_body: {
     height: 150,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+  },
+  warning_button: {
+    backgroundColor: 'green',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  },
+  image: {
+    height: 100,
+    width: 100,
+    margin: 10
   }
 });
 
