@@ -15,6 +15,8 @@ import {
   Pressable,
   Modal,
 } from 'react-native';
+import MashButton from './CustomButton';
+import Header from './Header';
 
 const App = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -34,6 +36,7 @@ const App = () => {
       source={{
         uri: 'https://cdn.pixabay.com/photo/2013/07/12/12/35/texture-145968_960_720.png',
       }}>
+        <Header />
       <Modal
         visible={showWarning}
         onRequestClose={() => setShowWarning(false)}
@@ -68,13 +71,15 @@ const App = () => {
         onChangeText={value => setPhoneNumber(value)}
         keyboardType="numeric"
         maxLength={10}
-        //secureTextEntry
-        //editable={false}
+        
       />
-      <Button
+      
+
+      <MashButton
+        onPressFunction={submitHandler}
         title={submitted ? 'clear' : 'submit'}
-        onPress={submitHandler}
-        disabled={submitted}
+        color='blue'
+        style={{margin: 10}}
       />
 
       {submitted ? (
@@ -82,21 +87,17 @@ const App = () => {
           <Text style={styles.text}>Your phone number: {phoneNumber}</Text>
           <Image
             style={styles.image}
-            source={require('./assets/done.png')}
+            source={require('../assets/done.png')}
             resizeMode="stretch"
           />
         </View>
       ) : (
         <Image
           style={styles.image}
-          source={require('./assets/error.png')}
+          source={require('../assets/error.png')}
           resizeMode="stretch"
         />
       )}
-
-      {/* {submitted && (
-        <Text style={styles.text}>Your phone number: {phoneNumber}</Text>
-      )} */}
     </ImageBackground>
   );
 };
