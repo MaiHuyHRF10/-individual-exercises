@@ -2,11 +2,14 @@ import {StyleSheet, Text, View, Pressable} from 'react-native';
 import React, {useState} from 'react';
 
 
-export default function ScreenB({navigation}) {
+export default function ScreenB({navigation, route}) {
   const onPressHandler = () => {
-    // navigation.navigate('Screen_A');
-    navigation.goBack();
+    navigation.navigate('Screen_A', {Message: 'message from Screen B'});
+    // navigation.goBack();
+    // navigation.setParams({ItemId: 20})
   };
+
+  const {ItemName, ItemId} = route.params;
 
   return (
     <View style={styles.body}>
@@ -18,6 +21,8 @@ export default function ScreenB({navigation}) {
         })}>
         <Text style={styles.text}>Go back to ScreenA</Text>
       </Pressable>
+      <Text style={styles.text}>{ItemName}</Text>
+      <Text style={styles.text}>ID: {ItemId}</Text>
     </View>
   );
 }

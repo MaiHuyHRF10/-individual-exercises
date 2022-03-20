@@ -32,8 +32,7 @@ function App() {
           headerTitleStyle: {
             fontSize: 20,
             fontWeight: 'bold',
-            
-          }
+          },
         }}>
         <Drawer.Screen
           name="Screen_A"
@@ -52,6 +51,7 @@ function App() {
         <Drawer.Screen
           name="Screen_B"
           component={ScreenB}
+          initialParams={{ItemName: null, ItemId: null}}
           options={{
             title: 'Screen B',
             drawerIcon: ({focused}) => (
