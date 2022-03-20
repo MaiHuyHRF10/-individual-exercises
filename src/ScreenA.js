@@ -4,8 +4,7 @@ import React, {useState} from 'react';
 
 export default function ScreenA({navigation}) {
   const onPressHandler = () => {
-    navigation.navigate('Screen_B');
-    // navigation.replace('Screen_B');
+    navigation.toggleDrawer();
   };
   return (
     <View style={styles.body}>
@@ -15,7 +14,7 @@ export default function ScreenA({navigation}) {
         style={({pressed}) => ({
           backgroundColor: pressed ? 'yellow' : 'orange',
         })}>
-        <Text style={styles.text}>Go to ScreenB</Text>
+        <Text style={styles.text}>Toggle Drawer</Text>
       </Pressable>
     </View>
   );
