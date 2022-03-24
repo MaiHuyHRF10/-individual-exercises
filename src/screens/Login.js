@@ -2,49 +2,29 @@ import {StyleSheet, Text, View, Image, Alert} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {TextInput} from 'react-native-gesture-handler';
 import CustomButton from '../utils/CustomButton';
-import SQLite from 'react-native-sqlite-storage';
+import { useSelector, useDispatch } from 'react-redux';
+import { setName, setAge } from '../redux/actions';
 
-const db = SQLite.openDatabase(
-  {
-    name: 'MainDB',
-    location: 'default',
-  },
-  () => {},
-  error => {
-    console.log(error);
-  },
-);
+
 
 export default function Login({navigation}) {
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
+  const {name, age} = useSelector(state => state.userReducer)
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    createTable();
     getData();
   }, []);
 
-  const createTable = () => {
-    db.transaction(tx => {
-      tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS ' +
-          'USERS ' +
-          '(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Age INTEGER);',
-      );
-    });
-  };
+  
 
   const setData = async () => {
     if (name.length === 0 || age.length === 0) {
       Alert.alert('Warning !!!', 'Please write your data.');
     } else {
       try {
-        await db.transaction(async (tx) => {
-          // await tx.executeSql(
-          //   "INSERT INTO Users (Name, Age) VALUES ('" + name + "'), " + age + "",
-          // );
-          await tx.executeSql('INSERT INTO Users (Name, Age) VALUES (?,?)', [name, age]);
-        });
+        dispatch(setName(name));
+        dispatch(setAge(age));
+
         navigation.navigate('Home');
       } catch (error) {
         console.log(error);
@@ -54,14 +34,10 @@ export default function Login({navigation}) {
 
   const getData = () => {
     try {
-      db.transaction(tx => {
-        tx.executeSql('SELECT Name, Age from Users', [], (tx, results) => {
-          var len = results.rows.length;
-          if (len > 0) {
-            navigation.navigate('Home');
-          }
-        });
-      });
+      var len = name.length;
+      if (len > 0) {
+        navigation.navigate('Home');
+      }
     } catch (error) {
       console.log(error);
     }
@@ -69,17 +45,17 @@ export default function Login({navigation}) {
 
   return (
     <View style={styles.body}>
-      <Image style={styles.logo} source={require('../../assets/sqlite.png')} />
-      <Text style={styles.text}>SQLite</Text>
+      <Image style={styles.logo} source={require('../../assets/redux.png')} />
+      <Text style={styles.text}>Redux</Text>
       <TextInput
         style={styles.input}
         placeholder="Enter your name"
-        onChangeText={value => setName(value)}
+        onChangeText={value => dispatch(setName(value))}
       />
       <TextInput
         style={styles.input}
         placeholder="Enter your age"
-        onChangeText={value => setAge(value)}
+        onChangeText={value => dispatch(setAge(value))}
       />
       <CustomButton title="login" color="#1eb900" onPressFunction={setData} />
     </View>
@@ -94,11 +70,11 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 150,
-    height: 80,
+    height: 150,
     margin: 20,
   },
   text: {
-    fontSize: 30,
+    fontSize: 24,
     color: 'white',
   },
   input: {
@@ -112,4 +88,5 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 10,
   },
+  
 });
