@@ -1,7 +1,9 @@
-import {StyleSheet, Text, View, TextInput, Alert, FlatList} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {setName, setAge, increaseAge, getCities} from '../redux/actions';
+import PushNotification from 'react-native-push-notification';
+
 
 export default function Home({navigation}) {
   const {cities} = useSelector(state => state.userReducer);
@@ -11,6 +13,29 @@ export default function Home({navigation}) {
     dispatch(getCities());
   }, []);
 
+  const handleNotification = (item, index) => {
+    PushNotification.cancelAllLocalNotifications();
+
+    PushNotification.localNotification({
+      channelId: 'test-channel',
+      title: 'You clicked on ' + item.country,
+      message: item.city,
+      bigText:
+        item.city +
+        ' is one of the largest and most beatiful cities in ' +
+        item.country,
+      color: 'red',
+      id: index,
+    });
+
+    PushNotification.localNotificationSchedule({
+      channelId: 'test-channel',
+      title: 'Alarm',
+      message: 'You clicked on ' + item.country + ' 20 seconds ago',
+      date: new Date(Date.now() + 20 * 1000),
+      allowWhileIdle: true,
+    });
+  };
 
   return (
     <View style={styles.body}>
@@ -18,11 +43,15 @@ export default function Home({navigation}) {
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         data={cities}
-        renderItem={({item}) => (
-          <View style={styles.item}>
-            <Text style={styles.title}>{item.country}</Text>
-            <Text style={styles.subtitle}>{item.city}</Text>
-          </View>
+        renderItem={({item, index}) => (
+          <TouchableOpacity
+            onPress={() => { handleNotification(item, index) }}
+          >
+            <View style={styles.item}>
+              <Text style={styles.title}>{item.country}</Text>
+              <Text style={styles.subtitle}>{item.city}</Text>
+            </View>
+          </TouchableOpacity>
         )}
       />
     </View>

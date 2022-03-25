@@ -4,6 +4,7 @@ import {TextInput} from 'react-native-gesture-handler';
 import CustomButton from '../utils/CustomButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { setName, setAge } from '../redux/actions';
+import PushNotification from 'react-native-push-notification';
 
 
 
@@ -13,6 +14,7 @@ export default function Login({navigation}) {
 
   useEffect(() => {
     getData();
+    createChannels()
   }, []);
 
   
@@ -42,6 +44,15 @@ export default function Login({navigation}) {
       console.log(error);
     }
   };
+
+  const createChannels = () => {
+    PushNotification.createChannel(
+      {
+        channelId: 'test-channel',
+        channelName: 'Test Channel'
+      }
+    )
+  }
 
   return (
     <View style={styles.body}>
