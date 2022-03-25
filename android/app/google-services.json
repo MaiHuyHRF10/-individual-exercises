@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "389621448897",
+    "project_id": "tutorial-73b54",
+    "storage_bucket": "tutorial-73b54.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389621448897:android:fdb15716b64d4ccaafd440",
+        "android_client_info": {
+          "package_name": "com.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "389621448897-0ph7t64l77bgc7m0d2aaqsmbmv56o6d3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNoTQc7L8l4qqP7Ak76SNFSBey8iiCfsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "389621448897-0ph7t64l77bgc7m0d2aaqsmbmv56o6d3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
