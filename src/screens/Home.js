@@ -4,7 +4,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import {setName, setAge, increaseAge, getCities} from '../redux/actions';
 import PushNotification from 'react-native-push-notification';
 
-
 export default function Home({navigation}) {
   const {cities} = useSelector(state => state.userReducer);
   const dispatch = useDispatch();
@@ -14,8 +13,6 @@ export default function Home({navigation}) {
   }, []);
 
   const handleNotification = (item, index) => {
-    PushNotification.cancelAllLocalNotifications();
-
     PushNotification.localNotification({
       channelId: 'test-channel',
       title: 'You clicked on ' + item.country,
@@ -28,13 +25,6 @@ export default function Home({navigation}) {
       id: index,
     });
 
-    PushNotification.localNotificationSchedule({
-      channelId: 'test-channel',
-      title: 'Alarm',
-      message: 'You clicked on ' + item.country + ' 20 seconds ago',
-      date: new Date(Date.now() + 20 * 1000),
-      allowWhileIdle: true,
-    });
   };
 
   return (
@@ -45,8 +35,14 @@ export default function Home({navigation}) {
         data={cities}
         renderItem={({item, index}) => (
           <TouchableOpacity
-            onPress={() => { handleNotification(item, index) }}
-          >
+            onPress={() => {
+              handleNotification(item, index);
+              navigation.navigate('Map', {
+                city: item.city,
+                lat: item.lat,
+                lng: item.lng,
+              });
+            }}>
             <View style={styles.item}>
               <Text style={styles.title}>{item.country}</Text>
               <Text style={styles.subtitle}>{item.city}</Text>
