@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {setName, setAge, increaseAge, getCities} from '../redux/actions';
 import PushNotification from 'react-native-push-notification';
+import CustomButton from '../utils/CustomButton';
 
 export default function Home({navigation}) {
   const {cities} = useSelector(state => state.userReducer);
@@ -30,6 +31,11 @@ export default function Home({navigation}) {
   return (
     <View style={styles.body}>
       <Text style={styles.text}>Hello Redux</Text>
+      <CustomButton
+        title='Open Camera'
+        color='#0080ff'
+        onPressFunction={() => { navigation.navigate('Camera') }}
+      />
       <FlatList
         keyExtractor={(item, index) => index.toString()}
         data={cities}

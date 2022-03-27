@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import Login from './screens/Login';
 import Home from './screens/Home';
 import Map from './screens/Map';
+import Camera from './screens/Camera';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider} from 'react-redux';
 import {Store} from './redux/store';
@@ -34,6 +35,7 @@ function App() {
           />
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="Map" component={Map} />
+          <Stack.Screen name="Camera" component={Camera} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
