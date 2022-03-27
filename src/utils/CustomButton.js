@@ -17,15 +17,17 @@ const MashButton = props => {
 
 const styles = StyleSheet.create({
   text: {
-    color: '#000000',
+    color: 'white',
     fontSize: 20,
     margin: 10,
     textAlign: 'center',
   },
   button: {
-    alignItems: 'center',
     width: 150,
     height: 50,
+    alignItems: 'center',
+    borderRadius: 5,
+    margin: 10,
   },
 });
 
